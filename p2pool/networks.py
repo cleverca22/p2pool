@@ -60,7 +60,7 @@ nets = dict(
         MAX_TARGET=2**256//2**16 - 1,
         PERSIST=True,
         WORKER_PORT=1235,
-        BOOTSTRAP_ADDRS='ext.earthtools.ca'.split(' '),
+        BOOTSTRAP_ADDRS='mars.pool.angeldsis.com'.split(' '),
         VERSION_CHECK=lambda v: True,
         ANNOUNCE_CHANNEL='#marscoin',
     ),
