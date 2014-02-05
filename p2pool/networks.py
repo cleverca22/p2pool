@@ -46,6 +46,25 @@ nets = dict(
         VERSION_CHECK=lambda v: 50700 <= v < 60000 or 60010 <= v < 60100 or 60400 <= v,
     ),
     
+    marscoin=math.Object(
+        PARENT=networks.nets['marscoin'],
+        SHARE_PERIOD=30, # seconds
+        CHAIN_LENGTH=24*60*60//10, # shares
+        REAL_CHAIN_LENGTH=24*60*60//10, # shares
+        TARGET_LOOKBEHIND=200, # shares
+        SPREAD=3, # blocks
+        IDENTIFIER='7f7204138fdf529f'.decode('hex'),
+        PREFIX='945b91186e4e5e83'.decode('hex'),
+        P2P_PORT=1236,
+        MIN_TARGET=0,
+        MAX_TARGET=2**256//2**16 - 1,
+        PERSIST=False,
+        WORKER_PORT=1235,
+        BOOTSTRAP_ADDRS='192.168.2.61'.split(' '),
+        VERSION_CHECK=lambda v: True,
+        ANNOUNCE_CHANNEL='#marscoin',
+    ),
+    
     litecoin=math.Object(
         PARENT=networks.nets['litecoin'],
         SHARE_PERIOD=15, # seconds

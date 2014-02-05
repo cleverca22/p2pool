@@ -58,6 +58,29 @@ nets = dict(
         DUMB_SCRYPT_DIFF=1,
         DUST_THRESHOLD=1e8,
     ),
+
+    marscoin=math.Object(
+        P2P_PREFIX='fbc0b6db'.decode('hex'),
+        P2P_PORT=8338,
+        ADDRESS_VERSION=50,
+        RPC_PORT=3883,
+        RPC_CHECK=defer.inlineCallbacks(lambda bitcoind: defer.returnValue(
+            (yield check_genesis_block(bitcoind, '06e005f86644f15d2e4c62b59a038c798a3b0816ba58dcc8c91e02ce5a685299')) and
+            not (yield bitcoind.rpc_getinfo())['testnet']
+        )),
+        SUBSIDY_FUNC=lambda height: 50*100000000 >> (height + 1)//840000,
+        POW_FUNC=lambda data: pack.IntType(256).unpack(__import__('ltc_scrypt').getPoWHash(data)),
+        BLOCK_PERIOD=120, # s
+        SYMBOL='MRC',
+        CONF_FILE_FUNC=lambda: os.path.join(os.path.join(os.environ['APPDATA'], 'FIXME') if platform.system() == 'Windows' else os.path.expanduser('~/Library/Application Support/FIXME/') if platform.system() == 'Darwin' else os.path.expanduser('~/.marscoin'), 'marscoin.conf'),
+        BLOCK_EXPLORER_URL_PREFIX='https://blockchain.info/block/',
+        ADDRESS_EXPLORER_URL_PREFIX='http://explorer.dot-bit.org/a/',
+        TX_EXPLORER_URL_PREFIX='http://explorer.dot-bit.org/tx/',
+        #SANE_TARGET_RANGE=(2**256//2**32//1000000 - 1, 2**256//2**32 - 1),
+        SANE_TARGET_RANGE=(2**256//1000000000 - 1, 2**256//60000 - 1),
+        DUMB_SCRYPT_DIFF=2**16,
+        DUST_THRESHOLD=1e8,
+    ),
     
     namecoin=math.Object(
         P2P_PREFIX='f9beb4fe'.decode('hex'),
